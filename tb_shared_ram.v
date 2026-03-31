@@ -67,7 +67,6 @@ module tb_shared_ram;
   shared_ram_gpu_cpu dut (
       .same_phase          (1'b0),
       .clk50               (clk50),
-      .clk50_n             (clk50_n),
       .clk25               (clk25),
       .rst                 (rst),
       .cpu_addr            (cpu_addr),

@@ -1,6 +1,5 @@
 module shared_ram_gpu_cpu (
     input         clk50,
-    input         clk50_n,
     input         clk25,
     input         rst,
     input         same_phase,
@@ -38,20 +37,14 @@ module shared_ram_gpu_cpu (
       .read_data(ram_rdata)
   );
 
-  // GPU-side cache register.
-  // Captures on clk50 negedge (via 180-degree clock), after RAM updates on clk50 posedge.
-  reg en_gpu;
-  always @(posedge clk50) begin
-    en_gpu <= ~clk25;
-  end
-
+  // GPU-side cache register
   register #(
       .W(32),
       .RESET_VALUE(0)
   ) gpu_cache_u (
-      .clk(clk50_n),
+      .clk(clk25),
       .rst(rst),
-      .en (en_gpu),
+      .en (1'b1),
       .d  (ram_rdata),
       .q  (gpu_rdata_cached)
   );
